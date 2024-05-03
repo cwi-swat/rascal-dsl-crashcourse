@@ -3,7 +3,24 @@ module Syntax
 extend lang::std::Layout;
 extend lang::std::Id;
 
+/*
 
+To test, enter the following in the Rascal terminal
+```
+import Syntax;
+import ParseTree;
+parse(#start[Form], |project://rascal-dsl-crashcourse/examples/tax.myql|);
+```
+And inspect the result and/or error. 
+
+If syntax highlighting does not work, but you're confident the grammar is correct, issue the following in the terminal:
+```
+import IDE;
+main();
+```
+Then reopen the QL file. 
+
+*/
 
 /*
  * Concrete syntax of QL

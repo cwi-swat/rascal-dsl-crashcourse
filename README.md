@@ -13,9 +13,12 @@ Topics covered by the course:
 ### Preliminaries
 
 Please install [VS Code](https://code.visualstudio.com/) and then the [Rascal VS Code extension](https://marketplace.visualstudio.com/items?itemName=usethesource.rascalmpl) (you can also find Rascal in the extension browser).
+
 Git clone [this](https://github.com/cwi-swat/rascal-dsl-crashcourse) repository. Finally, go to the File menu of VS Code and select "Add Folder to workspace", navigate to where you've cloned the repo, and select that directory. 
 
-The project comes with pre-wired IDE support: as you progress through the exercises, you will notice this in the editors of the QL programs. As soon as your grammar is correct, you will see syntax highlighting. Name resolution will trigger jump-to-definition functionality (hove click on identifiers), consistency checking will show errors as squiglies in the editor. As soon as your interpreter works, the code lens "Run" (link at top of the form) will trigger execution of the form, and the same for formatting. 
+Do the same sequence of steps for the following git repo: [https://github.com/cwi-swat/rascal-wax-on-wax-off](https://github.com/cwi-swat/rascal-wax-on-wax-off).
+
+The course project comes with pre-wired IDE support for QL: as you progress through the exercises, you will notice this in the editors of the QL programs. As soon as your grammar is correct, you will see syntax highlighting. Name resolution will trigger jump-to-definition functionality (hover-click on identifiers), consistency checking will show errors as squiglies in the editor. As soon as your interpreter works, the code lens "Run" (link at top of the form) will trigger execution of the form, and the same for formatting. 
 
 ## QL
 
@@ -57,5 +60,27 @@ form taxOfficeExample {
   }
 }
 ```
+
+See the folder `examples/` for example QL programs. 
+
+
+### Rascal Wax On Wax Off (1 hour)
+
+Open `Series1.rsc`, click on `Run in new Rascal terminal` (top of editor).
+Fill in the blanks of the functions, and executed in the terminal. If you have time left, move on to `Series2.rsc`.
+Documentation can be found [here](https://www.rascal-mpl.org/docs/GettingStarted/).
+
+## QL Exercises (4 hours total)
+
+Each exercise corresponds to a Rascal module, see each module for an explanation:
+
+- `Syntax.rsc`: syntax definition (grammars and parsing)
+- `Resolve.rsc` / `Check.rsc`: name resolution (linking uses to definitions), static checking (name errors and dependency errors), respectively.
+- `Eval.rsc`: interpretation (run QL as a Salix web app)
+- `Format.rsc`: source-to-source transformation (formatting)
+
+
+
+
 
 
