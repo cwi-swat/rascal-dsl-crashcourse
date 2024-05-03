@@ -4,6 +4,7 @@ import Syntax;
 import Message;
 
 
+
 /*
  * Name resolution for QL
  */ 

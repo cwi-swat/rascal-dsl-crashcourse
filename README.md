@@ -10,6 +10,12 @@ Topics covered by the course:
 - Dynamic interpretation
 - Source-to-Source transformation
 
+### Preliminaries
+
+Please install [VS Code](https://code.visualstudio.com/) and then the [Rascal VS Code extension](https://marketplace.visualstudio.com/items?itemName=usethesource.rascalmpl) (you can also find Rascal in the extension browser).
+Git clone [this](https://github.com/cwi-swat/rascal-dsl-crashcourse) repository. Finally, go to the File menu of VS Code and select "Add Folder to workspace", navigate to where you've cloned the repo, and select that directory. 
+
+The project comes with pre-wired IDE support: as you progress through the exercises, you will notice this in the editors of the QL programs. As soon as your grammar is correct, you will see syntax highlighting. Name resolution will trigger jump-to-definition functionality (hove click on identifiers), consistency checking will show errors as squiglies in the editor. As soon as your interpreter works, the code lens "Run" (link at top of the form) will trigger execution of the form, and the same for formatting. 
 
 ## QL
 

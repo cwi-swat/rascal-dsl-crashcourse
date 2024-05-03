@@ -4,6 +4,7 @@ extend lang::std::Layout;
 extend lang::std::Id;
 
 
+
 /*
  * Concrete syntax of QL
  */
