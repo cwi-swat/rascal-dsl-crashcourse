@@ -1,6 +1,8 @@
 module Resolve
 
-import AST;
+import Syntax;
+import Message;
+
 
 /*
  * Name resolution for QL
@@ -22,13 +24,13 @@ alias RefGraph = tuple[
   UseDef useDef
 ]; 
 
-RefGraph resolve(AForm f) = <us, ds, us o ds>
+RefGraph resolve(start[Form] f) = <us, ds, us o ds>
   when Use us := uses(f), Def ds := defs(f);
 
-Use uses(AForm f) {
+Use uses(start[Form] f) {
   return {}; 
 }
 
-Def defs(AForm f) {
+Def defs(start[Form] f) {
   return {}; 
 }

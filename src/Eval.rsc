@@ -1,7 +1,6 @@
 module Eval
 
-import AST;
-import Resolve;
+import Syntax;
 
 /*
  * Implement big-step semantics for QL
@@ -26,32 +25,32 @@ data Input
   
 // produce an environment which for each question has a default value
 // (e.g. 0 for int, "" for str etc.)
-VEnv initialEnv(AForm f) {
+VEnv initialEnv(start[Form] f) {
   return ();
 }
 
 
 // Because of out-of-order use and declaration of questions
 // we use the solve primitive in Rascal to find the fixpoint of venv.
-VEnv eval(AForm f, Input inp, VEnv venv) {
+VEnv eval(start[Form] f, Input inp, VEnv venv) {
   return solve (venv) {
     venv = evalOnce(f, inp, venv);
   }
 }
 
-VEnv evalOnce(AForm f, Input inp, VEnv venv) {
+VEnv evalOnce(start[Form] f, Input inp, VEnv venv) {
   return (); 
 }
 
-VEnv eval(AQuestion q, Input inp, VEnv venv) {
+VEnv eval(Question q, Input inp, VEnv venv) {
   // evaluate conditions for branching,
   // evaluate inp and computed questions to return updated VEnv
   return (); 
 }
 
-Value eval(AExpr e, VEnv venv) {
+Value eval(Expr e, VEnv venv) {
   switch (e) {
-    case ref(id(str x)): return venv[x];
+    case (Expr)`<Id x>`: return venv["<x>"];
     
     // etc.
     
