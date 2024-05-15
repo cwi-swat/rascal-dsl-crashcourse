@@ -5,7 +5,7 @@ import salix::App;
 import salix::Core;
 import salix::Index;
 
-import Eval; // we only use eval of expressions 
+import Eval;
 import Syntax;
 
 import String;
@@ -14,6 +14,7 @@ import ParseTree;
 alias Model = tuple[start[Form] form, VEnv env];
 
 App[Model] runQL(start[Form] ql) = webApp(qlApp(ql), |project://rascal-dsl-crashcourse/src/main/rascal|);
+
 
 SalixApp[Model] qlApp(start[Form] ql, str id="root") 
   = makeApp(id, 
@@ -114,4 +115,9 @@ void viewQuestion(Question q, Model model) {
         default: throw "unknown question type";
 
     }
+}
+
+void appSnippets() {
+    start[Form] pt = parse(#start[Form], |project://rascal-dsl-crashcourse/examples/tax.myql|);
+    runQL(pt);
 }

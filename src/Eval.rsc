@@ -1,7 +1,9 @@
 module Eval
 
 import Syntax;
+
 import String;
+import ParseTree;
 import IO;
 
 /*
@@ -110,3 +112,17 @@ VEnv eval(Question q, Input inp, VEnv venv) {
   return venv;
 }
 
+
+void evalSnippets() {
+  start[Form] pt = parse(#start[Form], |project://rascal-dsl-crashcourse/examples/tax.myql|);
+
+  env = initialEnv(pt);
+  env2 = eval(pt, user("hasSoldHouse", vbool(true)), env);
+  env3 = eval(pt, user("sellingPrice", vint(1000)), env2);
+  env4 = eval(pt, user("privateDebt", vint(500)), env3);
+
+  for (Input u <- [user("hasSoldHouse", vbool(true)), user("sellingPrice", vint(1000)), user("privateDebt", vint(500))]) {
+    env = eval(pt, u, env);
+    println(env);
+  }
+}
