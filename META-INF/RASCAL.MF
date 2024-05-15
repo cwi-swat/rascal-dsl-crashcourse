@@ -1,4 +1,4 @@
-Project-Name: sle-rug
+Project-Name: rascal-dsl-crashcourse
 Source: src
 Require-Libraries: |lib://rascal-lsp|
 

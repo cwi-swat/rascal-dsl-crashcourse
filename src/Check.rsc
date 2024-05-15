@@ -1,9 +1,9 @@
 module Check
 
-
 import Resolve;
 import Syntax;
 import Message;
+
 
 /*
  * Optional

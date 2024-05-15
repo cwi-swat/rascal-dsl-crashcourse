@@ -1,8 +1,6 @@
 module Resolve
 
 import Syntax;
-import Message;
-
 
 
 /*

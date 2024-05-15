@@ -70,7 +70,7 @@ Open `Series1.rsc`, click on `Run in new Rascal terminal` (top of editor).
 Fill in the blanks of the functions, and executed in the terminal. If you have time left, move on to `Series2.rsc`.
 Documentation can be found [here](https://www.rascal-mpl.org/docs/GettingStarted/).
 
-## QL Exercises (4 hours total)
+### QL Exercises (4 hours total)
 
 Each exercise corresponds to a Rascal module, see each module for an explanation:
 
