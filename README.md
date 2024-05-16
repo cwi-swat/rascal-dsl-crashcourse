@@ -5,10 +5,9 @@ In this crash course on DSL engineering you will learn the basics of implementin
 
 Topics covered by the course:
 - Syntax definition 
-- Name resolution
 - Consistency checking 
 - Dynamic interpretation
-- Source-to-Source transformation
+- IDE support
 
 ### Preliminaries
 
