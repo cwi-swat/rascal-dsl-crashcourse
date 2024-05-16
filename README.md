@@ -14,9 +14,9 @@ Topics covered by the course:
 
 Please install [VS Code](https://code.visualstudio.com/) and then the [Rascal VS Code extension](https://marketplace.visualstudio.com/items?itemName=usethesource.rascalmpl) (you can also find Rascal in the extension browser).
 
-Git clone [this](https://github.com/cwi-swat/rascal-dsl-crashcourse) repository. Finally, go to the File menu of VS Code and select "Add Folder to workspace", navigate to where you've cloned the repo, and select that directory. 
+Git clone [this](https://github.com/cwi-swat/rascal-dsl-crashcourse) repository (_NB: don't rename the folder!_). Finally, go to the File menu of VS Code and select "Add Folder to workspace", navigate to where you've cloned the repo, and select that directory. 
 
-The course project comes with pre-wired IDE support for QL: as you progress through the exercises, you will notice this in the editors of the QL programs. As soon as your grammar is correct, you will see syntax highlighting. Name resolution will trigger jump-to-definition functionality (hover-click on identifiers), consistency checking will show errors as squiglies in the editor. As soon as your interpreter works, the code lens "Run" (link at top of the form) will trigger execution of the form, and the same for formatting. 
+The course project comes with pre-wired IDE support for QL: as you progress through the exercises, you will notice this in the editors of the QL programs. As soon as your grammar is correct, you will see syntax highlighting. Type checking will show errors as squiglies in the editor. As soon as your interpreter works, the code lens "Run..." (link at top of the form) will trigger execution of the form. 
 
 ## QL
 
@@ -72,13 +72,16 @@ See also the cheat-sheet in the `slides` folder.
 
 ### QL Exercises (3 hours total)
 
-Each exercise corresponds to a Rascal module, see each module for an explanation:
+Each task corresponds to a Rascal module, see each module for an explanation:
 
 - `Syntax.rsc`: syntax definition (grammars and parsing)
 - `Check.rsc`: type checking
 - `Eval.rsc`: semantics 
 - `App.rsc`: execution (run QL as a Salix web app)
-- `Flatten.rsc` (*optional*): source-to-source transformation (normalization)
+
+Optional (if there's time left): extend the language with a `date` question type
+and revisit all the modules to adapt type checking, interpretation, and execution
+to support it. 
 
 
 
