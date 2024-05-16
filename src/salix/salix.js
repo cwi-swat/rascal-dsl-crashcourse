@@ -295,7 +295,7 @@ class Salix {
 			if (this.subscriptions.hasOwnProperty(k)) {
 				for (var i = 0; i < subs.length; i++) {
 					var sub = subs[i];
-					var id = sub.subscription.handle.handle.id;
+					var id = sub.handle.id;
 					if (('' + id) === k) {
 						continue outer;
 					}

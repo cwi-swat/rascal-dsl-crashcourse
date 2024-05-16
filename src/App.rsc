@@ -10,6 +10,7 @@ import Syntax;
 
 import String;
 import ParseTree;
+import IO;
 
 // The salix application model is a tuple
 // containing the questionnaire and its current run-time state (env).
@@ -17,6 +18,50 @@ alias Model = tuple[start[Form] form, VEnv env];
 
 App[Model] runQL(start[Form] ql) = webApp(qlApp(ql), |project://rascal-dsl-crashcourse/src/main/rascal|);
 
+alias Loader = start[Form]();
+
+Loader makeLoader(start[Form] form) {
+    loc file = form.src.top;
+    datetime t = lastModified(file);
+    return start[Form]() {
+        datetime t2 = lastModified(file);
+        if (t2 > t) {
+            form = parse(#start[Form], file);
+            t = t2;
+        }
+        return form;
+    };
+}
+
+VEnv migrate(start[Form] form, VEnv env) {
+    VEnv init = initialEnv(form);
+
+    Value migrateVal(Value old, Value new) {
+        switch (<old, new>) {
+            case <vint(int i), vbool(_)>:
+                return vbool(i != 0);
+            case <vint(int i), vstr(_)>:
+                return vstr("<i>");
+            case <vstr(str s), vbool(_)>:
+                return vbool(s == "true");
+            case <vstr(str s), vint(_)>:
+                return /^[\-+]?[0-9]+$/ := s ? vint(toInt(s)) : vint(0);
+            case <vbool(bool b), vint(_)>:
+                return vint(b ? 1 : 0);
+            case <vbool(bool b), vstr(_)>:
+                return vstr("<b>");
+            default: return old; // same type
+        }
+    }
+
+    for (str x <- env, x in init) {
+        env[x] = migrateVal(env[x], init[x]);
+    }
+
+    env += (x: init[x] | str x <- init, x notin env); 
+
+    return env;
+}
 
 SalixApp[Model] qlApp(start[Form] ql, str id="root") 
   = makeApp(id, 
