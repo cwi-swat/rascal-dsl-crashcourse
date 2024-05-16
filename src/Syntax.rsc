@@ -25,7 +25,7 @@ lexical Bool = ;
 lexical Int = ;
 
 // ASSIGNMENT: define the syntax of type keywords  
-syntax Type = "integer" | "boolean" | "string";
+syntax Type = ;
 
 
 
