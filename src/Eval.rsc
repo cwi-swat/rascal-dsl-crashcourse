@@ -62,6 +62,8 @@ Value eval((Expr)`<Int i>`, VEnv venv) = vint(toInt("<i>"));
 Value eval((Expr)`<Expr lhs> == <Expr rhs>`, VEnv venv) 
   = vbool(eval(lhs, venv) == eval(rhs, venv));
 
+// note the escaping of < as \<
+// note further how the results of the recursive calls are unpacked using pattern matching.
 Value eval((Expr)`<Expr lhs> \< <Expr rhs>`, VEnv venv) = vbool(i < j)
   when 
     vint(int i) := eval(lhs, venv),
@@ -83,30 +85,19 @@ VEnv eval(start[Form] f, Input inp, VEnv venv) {
   }
 }
 
+// evaluate the questionnaire in one round 
 VEnv evalOnce(start[Form] f, Input inp, VEnv venv) 
   = ( venv | eval(q, inp, it) | Question q <- f.top.questions );
 
 
-// ASSIGNMENT evaluate conditions for branching,
-// evaluate inp and computed questions to return updated VEnv
+// ASSIGNMENT complete the question interpreter
+// by adding cases for computed questions, if-then, if-then-else, and block.
 VEnv eval(Question q, Input inp, VEnv venv) {
-  //return (); 
   switch (q) {
     case (Question)`<Str _> <Id x>: <Type _>`: {
       if ("<x>" == inp.question) {
         return venv + ("<x>": inp.\value);
       }
-    }
-    case (Question)`<Str _> <Id x>: <Type _> = <Expr e>`: {
-      return venv + ("<x>": eval(e, venv));
-    }
-    case (Question)`if (<Expr cond>) <Question then>`: {
-      if (eval(cond, venv) == vbool(true)) {
-        return eval(then, inp, venv);
-      }
-    }
-    case (Question)`{<Question* qs>}`: {
-      return ( venv | eval(q, inp, it) | Question q <- qs );
     }
   }
   return venv;

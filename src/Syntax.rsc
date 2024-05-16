@@ -14,18 +14,19 @@ import IO;
 start syntax Form 
   = "form" Id name "{" Question* questions "}"; 
 
-// ASSIGNMENT: define the syntax of type keywords  
-syntax Type = "integer" | "boolean" | "string";
-
 // Here's a simple syntax of String literals
 lexical Str = [\"]![\"]* [\"];
 
+// ASSIGNMENT: define the syntax of boolean literals.
+lexical Bool = ;
+
 // ASSIGNMENT define the syntax of integer literals
 // Docs: https://www.rascal-mpl.org/docs/Rascal/Declarations/SyntaxDefinition/Symbol/
-lexical Int = [0-9]+;
+lexical Int = ;
 
-// ASSIGNMENT: define the syntax of boolean literals.
-lexical Bool = "true" | "false";
+// ASSIGNMENT: define the syntax of type keywords  
+syntax Type = "integer" | "boolean" | "string";
+
 
 
 // ASSIGNMENT: complete the syntax of Questions
@@ -34,9 +35,6 @@ lexical Bool = "true" | "false";
 // Docs: https://www.rascal-mpl.org/docs/Rascal/Declarations/SyntaxDefinition/
 syntax Question 
   = "if" "(" Expr ")" Question !>> "else" 
-  | Str Id ":" Type
-  | Str Id ":" Type "=" Expr
-  | "{" Question* "}"
   ;
 
 
@@ -58,20 +56,6 @@ syntax Expr
       mul: Expr "*" Expr
     | div: Expr "/" Expr
   )
-  > left (
-      add: Expr "+" Expr
-    | sub: Expr "-" Expr
-  )
-  > non-assoc (
-      lt: Expr "\<" Expr
-    | leq: Expr "\<=" Expr
-    | gt: Expr "\>" Expr
-    | geq: Expr "\>=" Expr
-    | eq: Expr "==" Expr
-    | neq: Expr "!=" Expr
-  )
-  > left and: Expr "&&" Expr
-  > left or: Expr "||" Expr
   ;
 
 void snippets() {

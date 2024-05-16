@@ -66,17 +66,6 @@ void view(Model model) {
 void viewQuestion(Question q, Model model) {
 
     switch (q) {
-        case (Question)`if (<Expr e>) <Question then>`: {
-            if (eval(e, model.env) == vbool(true)) {
-                viewQuestion(then, model);
-            }
-        }
-
-        case (Question)`{<Question* qs>}`: {
-            for (Question q <- qs) {
-                viewQuestion(q, model);
-            }
-        }
         case (Question)`<Str s> <Id x>: <Type t>`: {
             tr(() {
                 td(() {

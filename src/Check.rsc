@@ -57,13 +57,6 @@ set[Message] check((Question)`<Str _> <Id x>: <Type t> = <Expr e>`, TEnv env)
 // ASSIGNMENT complete the check definition by adding cases 
 // for if-then, if-then-else, and block.
 
-set[Message] check((Question)`if (<Expr c>) <Question q>`, TEnv env)
-    = { error("condition must be boolean", c.src) | (Type)`boolean` !:= typeOf(c, env) }
-    + check(c, env) + check(q, env);
-
-set[Message] check((Question)`{<Question* qs>}`, TEnv env)
-    = { *check(q, env) | Question q <- qs };
-
 
 /*
  * Checking expressions
@@ -82,8 +75,8 @@ set[Message] check((Expr)`(<Expr e>)`, TEnv env) = check(e, env);
 // think about the different type signature of arithmetic
 // comparisons (<, >, ==, etc.), and booleans (&&, etc.)
 
-set[Message] check(e:(Expr)`<Expr x> - <Expr y>`, TEnv env)
-    = { error("invalid types for subtraction", e.src) | 
+set[Message] check(e:(Expr)`<Expr x> + <Expr y>`, TEnv env)
+    = { error("invalid types for addition", e.src) | 
         (Type)`integer` !:= typeOf(x, env) || (Type)`integer` !:= typeOf(y, env) }
     + check(x, env) + check(y, env);
 
