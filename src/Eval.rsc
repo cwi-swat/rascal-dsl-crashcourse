@@ -32,10 +32,9 @@ Value type2default((Type)`string`) = vstr("");
 Value type2default((Type)`boolean`) = vbool(false);
 
 
-// ASSIGNMENT: produce an environment which for each question has a default value
-// (e.g. 0 for int, "" for str etc.)
-// use the function type2default function defined above.
-// use visit to traverse the form an match on normal questions and computed questions.
+// produce an environment which for each question has a default value
+// using the function type2default function defined above.
+// observer how visit traverses the form and match on normal questions and computed questions.
 VEnv initialEnv(start[Form] f) {
   VEnv venv = ();
   visit (f) {
