@@ -7,29 +7,17 @@ import ParseTree;
 import vis::Text;
 import IO;
 
-
-// See bottom of this file for snippets to be pasted into the terminal.
+// TIP: see bottom of this file for snippets to be pasted into the terminal.
 
 
 // syntax of a questionnaire
 start syntax Form 
   = "form" Id name "{" Question* questions "}"; 
 
-
-// ASSIGNMENT: complete the syntax of Questions
-// add normal question, computed question, block of questions, and if-then-else
-// look at the examples directory for how such questions should look. 
-// Docs: https://www.rascal-mpl.org/docs/Rascal/Declarations/SyntaxDefinition/
-syntax Question 
-  = "if" "(" Expr ")" Question !>> "else" 
-  | Str Id ":" Type
-  | Str Id ":" Type "=" Expr
-  | "{" Question* "}"
-  ;
-
 // ASSIGNMENT: define the syntax of type keywords  
 syntax Type = "integer" | "boolean" | "string";
 
+// Here's a simple syntax of String literals
 lexical Str = [\"]![\"]* [\"];
 
 // ASSIGNMENT define the syntax of integer literals
@@ -40,11 +28,24 @@ lexical Int = [0-9]+;
 lexical Bool = "true" | "false";
 
 
+// ASSIGNMENT: complete the syntax of Questions
+// add normal questions, computed question, block of questions, and if-then-else
+// look at the examples directory for how such questions should look. 
+// Docs: https://www.rascal-mpl.org/docs/Rascal/Declarations/SyntaxDefinition/
+syntax Question 
+  = "if" "(" Expr ")" Question !>> "else" 
+  | Str Id ":" Type
+  | Str Id ":" Type "=" Expr
+  | "{" Question* "}"
+  ;
+
+
+
 // ASSIGNMENT: complete the expression grammar with expressions for
 // +, -, <, <=, >, >=, ==, !=, &&, ||
-// (note that in literals you have to escape < and >, like \<)
-// think about what the > in the grammar entails
-// similar for the keyword "left"
+// (note that in literals you have to escape < and >, like \< and \> respectively)
+// observe how > is used in the grammar to declare operator precedence 
+// similar for the keyword "left" (or right, or non-assoc) for associativity.
 // hint: https://www.rascal-mpl.org/docs/Rascal/Declarations/SyntaxDefinition/Disambiguation/
 syntax Expr
   = var: Id name \ "true" \"false"

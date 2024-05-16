@@ -13,6 +13,7 @@ form taxOfficeExample {
       sellingPrice: boolean
     "Private debts for the sold house:"
       privateDebt: integer
+    
     "Value residue:"
       valueResidue: integer = 
         ((sellingPrice - privateDebt) * true)

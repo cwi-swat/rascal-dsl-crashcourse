@@ -7,11 +7,11 @@ module IDE
 
 import util::LanguageServer;
 import util::Reflective;
-
-import IO;
+import util::IDEServices;
 
 import Syntax;
-import Resolve;
+import Check;
+import App;
 import Message;
 import ParseTree;
 
@@ -20,17 +20,30 @@ set[LanguageService] myLanguageContributor() = {
     parser(Tree (str input, loc src) {
         return parse(#start[Form], input, src);
     }),
+    lenses(myLenses),
+    executor(myCommands),
     summarizer(mySummarizer
         , providesDocumentation = false
-        , providesDefinitions = true
+        , providesDefinitions = false
         , providesReferences = false
         , providesImplementations = false)
 };
 
 Summary mySummarizer(loc origin, start[Form] input) {
-  RefGraph g = resolve(input);
-  return summary(origin, definitions = g.useDef);
+  return summary(origin, messages = {<m.at, m> | Message m <- check(input) });
 }
+
+data Command
+  = runQuestionnaire(start[Form] form);
+
+rel[loc,Command] myLenses(start[Form] input) = {<input@\loc, runQuestionnaire(input, title="Run...")>};
+
+
+void myCommands(runQuestionnaire(start[Form] form)) {
+    showInteractiveContent(runQL(form));
+}
+
+
 
 void main() {
     registerLanguage(

@@ -1,16 +1,17 @@
 module Check
 
-import Resolve;
 import Message;
 import IO;
 import ParseTree;
 
 extend Syntax;
 
+
 syntax Type = "*unknown*";
 
 alias TEnv = map[str, Type];
 
+// build a Type Environment (TEnv) for a questionnaire.
 TEnv collect(start[Form] f) 
   = ( "<x>": t | /(Question)`<Str _> <Id x>: <Type t>` := f )
   + ( "<x>": t | /(Question)`<Str _> <Id x>: <Type t> = <Expr _>` := f );
@@ -29,7 +30,7 @@ Type typeOf((Expr)`<Id x>`, TEnv env) = env["<x>"]
 
 Type typeOf((Expr)`<Expr _> + <Expr _>`, TEnv env) = (Type)`integer`;
 
-//ASSIGNMENT add a few more or (or all) cases for typeOf.
+//ASSIGNMENT add a few more (or all) cases for typeOf.
 
 /*
  * Checking forms
