@@ -68,7 +68,7 @@ Value eval((Expr)`<Expr lhs> \< <Expr rhs>`, VEnv venv) = vbool(i < j)
     vint(int j) := eval(rhs, venv);
 
 
-Value eval((Expr)`<Expr lhs> - <Expr rhs>`, VEnv venv) = vint(i - j)
+Value eval((Expr)`<Expr lhs> + <Expr rhs>`, VEnv venv) = vint(i - j)
   when 
     vint(int i) := eval(lhs, venv),
     vint(int j) := eval(rhs, venv);
