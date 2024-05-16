@@ -11,6 +11,8 @@ import Syntax;
 import String;
 import ParseTree;
 
+// The salix application model is a tuple
+// containing the questionnaire and its current run-time state (env).
 alias Model = tuple[start[Form] form, VEnv env];
 
 App[Model] runQL(start[Form] ql) = webApp(qlApp(ql), |project://rascal-dsl-crashcourse/src/main/rascal|);
@@ -23,27 +25,26 @@ SalixApp[Model] qlApp(start[Form] ql, str id="root")
         update);
 
 
+// The salix Msg type defines the application events.
 data Msg
   = updateInt(str name, str n)
   | updateBool(str name, bool b)
   | updateStr(str name, str s)
   ;
 
+// We map messages to Input values 
+// to be able to reuse the interpreter defined in Eval.
+Input msg2input(updateInt(str q, str n)) = user(q, vint(toInt(n)));
+Input msg2input(updateBool(str q, bool b)) = user(q, vbool(b));
+Input msg2input(updateStr(str q, str s)) = user(q, vstr(s));
 
-Model update(Msg msg, Model model) {
-    Input inp;
-    switch (msg) {
-        case updateInt(str q, str n):
-            inp = user(q, vint(toInt(n)));
-        case updateBool(str q, bool b):
-            inp = user(q, vbool(b));
-        case updateStr(str q, str s):
-            inp = user(q, vstr(s));
-    }
-    model.env = eval(model.form, inp, model.env);
-    return model;
-}
+// The Salix model update function simply evaluates the user input
+// to obtain the new state. 
+Model update(Msg msg, Model model) = model[env=eval(model.form, msg2input(msg), model.env)];
 
+// Salix view rendering works by "drawing" on an implicit HTML canvas.
+// Note how html elements are drawn, and how element nesting is achieved with
+// nesting of void-closures.
 void view(Model model) {
     h3(model.form.top.name);
     form(() {
@@ -95,7 +96,7 @@ void viewQuestion(Question q, Model model) {
             });
         }
 
-        case (Question)`<Str s> <Id x>: <Type t> = <Expr e>`: {
+        case (Question)`<Str s> <Id x>: <Type t> = <Expr _>`: {
             tr(() {
                 td(() {
                     label("<s>");

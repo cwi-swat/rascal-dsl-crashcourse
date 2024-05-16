@@ -17,7 +17,7 @@ start syntax Form
 
 
 // ASSIGNMENT: complete the syntax of Questions
-// add normal question, computed questsion, block of questions, and if-then-else
+// add normal question, computed question, block of questions, and if-then-else
 // look at the examples directory for how such questions should look. 
 // Docs: https://www.rascal-mpl.org/docs/Rascal/Declarations/SyntaxDefinition/
 syntax Question 
@@ -43,7 +43,7 @@ lexical Bool = "true" | "false";
 // ASSIGNMENT: complete the expression grammar with expressions for
 // +, -, <, <=, >, >=, ==, !=, &&, ||
 // (note that in literals you have to escape < and >, like \<)
-// thinnk about what the > in the grammar entails
+// think about what the > in the grammar entails
 // similar for the keyword "left"
 // hint: https://www.rascal-mpl.org/docs/Rascal/Declarations/SyntaxDefinition/Disambiguation/
 syntax Expr
