@@ -114,6 +114,13 @@ set[Message] check(e:(Expr)`<Expr x> * <Expr y>`, TEnv env)
         (Type)`integer` !:= typeOf(x, env) || (Type)`integer` !:= typeOf(y, env) }
     + check(x, env) + check(y, env);
 
+set[Message] check(e:(Expr)`<Expr x> - <Expr y>`, TEnv env)
+    = { error("invalid types for subtraction", e.src) | 
+        (Type)`integer` !:= typeOf(x, env) || (Type)`integer` !:= typeOf(y, env) }
+    + check(x, env) + check(y, env);
+
+//etc.
+
 
 void printTEnv(TEnv tenv) {
     for (str x <- tenv) {
