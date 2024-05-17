@@ -18,14 +18,14 @@ start syntax Form
 lexical Str = [\"]![\"]* [\"];
 
 // ASSIGNMENT: define the syntax of boolean literals.
-lexical Bool = ;
+lexical Bool = "true" | "false";
 
 // ASSIGNMENT define the syntax of integer literals
 // Docs: https://www.rascal-mpl.org/docs/Rascal/Declarations/SyntaxDefinition/Symbol/
-lexical Int = ;
+lexical Int = [\-]?[0-9]+;
 
 // ASSIGNMENT: define the syntax of type keywords  
-syntax Type = ;
+syntax Type = "boolean" | "integer" | "string";
 
 
 
@@ -35,6 +35,10 @@ syntax Type = ;
 // Docs: https://www.rascal-mpl.org/docs/Rascal/Declarations/SyntaxDefinition/
 syntax Question 
   = "if" "(" Expr ")" Question !>> "else" 
+  | "if" "(" Expr ")" Question "else" Question
+  | Str Id ":" Type 
+  | Str Id ":" Type "=" Expr
+  | "{" Question* "}"
   ;
 
 
@@ -56,6 +60,20 @@ syntax Expr
       mul: Expr "*" Expr
     | div: Expr "/" Expr
   )
+  > left (
+      add: Expr "+" Expr
+    | sub: Expr "-" Expr
+  )
+  > non-assoc (
+      eq: Expr "==" Expr
+    | neq: Expr "!=" Expr
+    | leq: Expr "\<=" Expr
+    | geq: Expr "\>=" Expr
+    | lt: Expr "\<" Expr
+    | gt: Expr "\>" Expr
+  )
+  > left and: Expr "&&" Expr
+  > left or: Expr "||" Expr
   ;
 
 void snippets() {
