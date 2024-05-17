@@ -31,6 +31,25 @@ Type typeOf((Expr)`<Id x>`, TEnv env) = env["<x>"]
 Type typeOf((Expr)`<Expr _> + <Expr _>`, TEnv env) = (Type)`integer`;
 
 //ASSIGNMENT add a few more (or all) cases for typeOf.
+Type typeOf((Expr)`<Int _>`, TEnv env) = (Type)`integer`;
+Type typeOf((Expr)`<Bool _>`, TEnv env) = (Type)`boolean`;
+Type typeOf((Expr)`<Str _>`, TEnv env) = (Type)`string`;
+
+Type typeOf((Expr)`<Expr _> * <Expr _>`, TEnv env) = (Type)`integer`;
+Type typeOf((Expr)`<Expr _> / <Expr _>`, TEnv env) = (Type)`integer`;
+Type typeOf((Expr)`<Expr _> - <Expr _>`, TEnv env) = (Type)`integer`;
+Type typeOf((Expr)`<Expr _> \> <Expr _>`, TEnv env) = (Type)`boolean`;
+Type typeOf((Expr)`<Expr _> \< <Expr _>`, TEnv env) = (Type)`boolean`;
+Type typeOf((Expr)`<Expr _> \>= <Expr _>`, TEnv env) = (Type)`boolean`;
+Type typeOf((Expr)`<Expr _> \<= <Expr _>`, TEnv env) = (Type)`boolean`;
+Type typeOf((Expr)`<Expr _> == <Expr _>`, TEnv env) = (Type)`boolean`;
+Type typeOf((Expr)`<Expr _> != <Expr _>`, TEnv env) = (Type)`boolean`;
+Type typeOf((Expr)`<Expr _> && <Expr _>`, TEnv env) = (Type)`boolean`;
+Type typeOf((Expr)`<Expr _> || <Expr _>`, TEnv env) = (Type)`boolean`;
+Type typeOf((Expr)`!<Expr _>`, TEnv tenv) = (Type)`boolean`;
+Type typeOf((Expr)`(<Expr e>)`, TEnv tenv) = typeOf(e, tenv);
+
+
 
 /*
  * Checking forms
@@ -51,12 +70,22 @@ default set[Message] check(Question _, TEnv _) = {};
 // a computed question must have an expression that is type 
 // compatible with its declared type.
 set[Message] check((Question)`<Str _> <Id x>: <Type t> = <Expr e>`, TEnv env)
-    = { error("incompatible type", e.src) | t !:= typeOf(e, env) }
+    = { error("incompatible type", e.src) | t !:= typeOf(e, env), bprintln(typeOf(e, env)) }
     + check(e, env);
 
 // ASSIGNMENT complete the check definition by adding cases 
 // for if-then, if-then-else, and block.
 
+set[Message] check((Question)`if (<Expr c>) <Question q>`, TEnv env) 
+    = { error("condition must be boolean", c.src) | (Type)`boolean` !:= typeOf(c, env) }
+    + check(c, env) + check(q, env);
+
+set[Message] check((Question)`if (<Expr c>) <Question q> else <Question qe>`, TEnv env) 
+    = { error("condition must be boolean", c.src) | (Type)`boolean` !:= typeOf(c, env) }
+    + check(c, env) + check(q, env) + check(qe, env);
+
+set[Message] check((Question)`{<Question* qs>}`, TEnv env)
+  = { *check(q, env) | Question q <- qs };
 
 /*
  * Checking expressions

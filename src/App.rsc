@@ -61,10 +61,28 @@ void view(Model model) {
 // if-then, if-then-else, block, and computed questions.
 // to evaluate conditions call eval, and pass in model.env
 // for the latter take inspiration from the normal question rendering
-// and use the attribute disabeld(true) to make them read only. 
+// and use the attribute disabeled(true) to make them read only. 
 void viewQuestion(Question q, Model model) {
 
     switch (q) {
+        case (Question)`if (<Expr cond>) <Question q>`: {
+            if (eval(cond, model.env) == vbool(true)) {
+                viewQuestion(q, model);
+            } 
+        }
+        case (Question)`if (<Expr cond>) <Question q> else <Question qe>`: {
+            if (eval(cond, model.env) == vbool(true)) {
+                viewQuestion(q, model);
+            }
+            else {
+                viewQuestion(qe, model);
+            }
+        }
+        case (Question)`{<Question* qs>}`: {
+            for (Question q <- qs) {
+                viewQuestion(q, model);
+            }
+        }
         case (Question)`<Str s> <Id x>: <Type t>`: {
             tr(() {
                 td(() {
@@ -96,6 +114,8 @@ void viewQuestion(Question q, Model model) {
                             input(\type("number"), \value("<i>"), disabled(true));
                         case <(Type)`boolean`, vbool(bool b)>:
                             input(\type("checkbox"),checked(b), disabled(true));
+                        case <(Type)`string`, vstr(str s)>:
+                            input(\type("text"), \value("<s>"), disabled(true));
                     }    
                 });   
             });

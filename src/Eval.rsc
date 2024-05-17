@@ -61,6 +61,8 @@ Value eval((Expr)`<Int i>`, VEnv venv) = vint(toInt("<i>"));
 Value eval((Expr)`<Expr lhs> == <Expr rhs>`, VEnv venv) 
   = vbool(eval(lhs, venv) == eval(rhs, venv));
 
+Value eval((Expr)`(<Expr e>)`, VEnv venv) = eval(e, venv);
+
 // note the escaping of < as \<
 // note further how the results of the recursive calls are unpacked using pattern matching.
 Value eval((Expr)`<Expr lhs> \< <Expr rhs>`, VEnv venv) = vbool(i < j)
@@ -69,12 +71,17 @@ Value eval((Expr)`<Expr lhs> \< <Expr rhs>`, VEnv venv) = vbool(i < j)
     vint(int j) := eval(rhs, venv);
 
 
-Value eval((Expr)`<Expr lhs> + <Expr rhs>`, VEnv venv) = vint(i - j)
+Value eval((Expr)`<Expr lhs> + <Expr rhs>`, VEnv venv) = vint(i + j)
   when 
     vint(int i) := eval(lhs, venv),
     vint(int j) := eval(rhs, venv);
 
+Value eval((Expr)`<Expr lhs> - <Expr rhs>`, VEnv venv) = vint(i - j)
+  when 
+    vint(int i) := eval(lhs, venv),
+    vint(int j) := eval(rhs, venv);
 
+// etc. 
 
 // Because of out-of-order use and declaration of questions
 // we use the solve primitive in Rascal to find the fixpoint of venv.
@@ -98,6 +105,23 @@ VEnv eval(Question q, Input inp, VEnv venv) {
         return venv + ("<x>": inp.\value);
       }
     }
+    case (Question)`<Str _> <Id x>: <Type _> = <Expr e>`: {
+      return venv + ("<x>" : eval(e, venv));
+    }
+    case (Question)`if (<Expr c>) <Question q>`: {
+      if (eval(c, venv) == vbool(true)) {
+        return eval(q, inp, venv);
+      }
+    }
+    case (Question)`if (<Expr c>) <Question q> else <Question qe>`: {
+      if (eval(c, venv) == vbool(true)) {
+        return eval(q, inp, venv);
+      }
+      return eval(qe, inp, venv);
+    }
+    case (Question)`{<Question* qs>}`:
+      return ( venv | eval(q, inp, it) | Question q <- qs );
+
   }
   return venv;
 }
